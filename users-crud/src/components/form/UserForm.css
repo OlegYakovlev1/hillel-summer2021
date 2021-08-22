@@ -1,0 +1,32 @@
+h2 {
+    margin-top: 0;
+}
+
+.user-form {
+    width: 100%;
+    font-size: 24px;
+    padding: 15px 30px;
+    box-sizing: border-box;
+}
+
+.user-form label{
+    display: block;
+    font-weight: 600;
+}
+
+.user-form input[type="text"]{
+    padding: 5px 10px;
+    font-size: 20px;
+    margin: 10px 0 40px;
+    width: 95%;
+}
+.user-form .buttons{
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.user-form .buttons button{
+    font-size: 20px;
+    padding: 5px 10px;
+}

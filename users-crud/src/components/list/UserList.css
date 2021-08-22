@@ -1,0 +1,23 @@
+.user-list{
+    width: 100%;
+    list-style: none;
+    padding: 0;
+    font-size: 20px
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+tr {
+    border-top: 1px solid lightgray;
+}
+
+th, td {
+    padding: 15px;
+}
+
+td button{
+    font-size: 15px;
+}

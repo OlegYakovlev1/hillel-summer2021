@@ -1,80 +1,52 @@
-import React from "react";
+import {useState} from "react";
 
-class TodoItem extends React.PureComponent {
-    constructor(props) {
-        super(props);
+const TodoItem = (props) => {
+    const [isEditing, setIsEditing] = useState(false);
+    const [value, setValue] = useState("");
 
-        console.log("constructor")
-
-        this.state = {
-            isEditing: false,
-            value: ""
-        }
+    const editHandler = () => {
+        setIsEditing(true);
+        setValue(props.item.title);
     }
 
-    editHandler = () => {
-        this.setState({
-            isEditing: true,
-            value: this.props.item.title
-        })
+    const onChange = (e) => setValue(e.target.value);
+
+    const saveChanges = () => {
+        setIsEditing(false);
+        props.updateTitle(props.item.id, value);
     }
 
-    onChange = (e) => this.setState({value: e.target.value});
-
-    saveChanges = () => {
-        this.setState({isEditing: false});
-        this.props.updateTitle(this.props.item.id, this.state.value);
-    }
-
-    // shouldComponentUpdate(nextProps, nextState) {
-    //     return nextProps.item !== this.props.item
-    // }
-
-    componentDidMount() {
-        console.log("componentDidMount")
-    }
-
-    componentDidUpdate() {
-        console.log("componentDidUpdate")
-    }
-
-    componentWillUnmount() {
-        console.log("componentWillUnmount")
-    }
-
-    render() {
-        if(this.state.isEditing) {
-            return(
-                <li className="editing">
-                    <div className="view">
-                        <input className="toggle" type="checkbox"/>
-                        <label>test</label>
-                        <button className="destroy"></button>
-                    </div>
-                    <input
-                        autoFocus
-                        className="edit"
-                        value={this.state.value}
-                        onBlur={this.saveChanges}
-                        onChange={this.onChange}/>
-                </li>
-            );
-        }
-        
+    if(isEditing) {
         return(
-            <li className="">
+            <li className="editing">
                 <div className="view">
-                    <input
-                        className="toggle"
-                        type="checkbox"
-                        checked={this.props.item.completed}
-                        onClick={() => {this.props.toggleTodo(this.props.item.id);}} />
-                    <label onDoubleClick={this.editHandler}>{this.props.item.title}</label>
-                    <button className="destroy" onClick={() => this.props.deleteTodo(this.props.item.id)}></button>
+                    <input className="toggle" type="checkbox"/>
+                    <label>test</label>
+                    <button className="destroy"></button>
                 </div>
+                <input
+                    autoFocus
+                    className="edit"
+                    value={value}
+                    onBlur={saveChanges}
+                    onChange={onChange}/>
             </li>
         );
     }
+    
+    return(
+        <li className="">
+            <div className="view">
+                <input
+                    className="toggle"
+                    type="checkbox"
+                    checked={props.item.completed}
+                    onChange={() => {props.toggleTodo(props.item.id);}} />
+                <label onDoubleClick={editHandler}>{props.item.title}</label>
+                <button className="destroy" onClick={() => props.deleteTodo(props.item.id)}></button>
+            </div>
+        </li>
+    );
 }
 
 export default TodoItem;

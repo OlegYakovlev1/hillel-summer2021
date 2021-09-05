@@ -1,34 +1,32 @@
-import React from "react"
+import { useState } from "react"
+import {connect} from "react-redux";
+import { createTodo } from "../store/actions";
 
-class Header extends React.Component {
-    constructor(props) {
-        super(props)
+const Header  = (props) => {
+    const [value, setValue] = useState("");
 
-        this.state = {
-            value: ""
+    const onKeyPress = (e) => {
+        if(e.key === "Enter" && value.trim()) {
+            props.createTodo(value);
+            setValue("");
         }
     }
 
-    onKeyPress = (e) => {
-        if(e.key === "Enter") {
-            this.props.createTodo(this.state.value);
-            this.setState({value: ""});
-        }
-    }
-
-    render() {
-        return(
-			<header className="header">
-				<h1>todos</h1>
-				<input
-                    className="new-todo"
-                    placeholder="What needs to be done?"
-                    value={this.state.value}
-                    onChange={(e) => this.setState({value: e.target.value})}
-                    onKeyPress={this.onKeyPress} />
-			</header>
-        );
-    }
+    return(
+        <header className="header">
+            <h1>todos</h1>
+            <input
+                className="new-todo"
+                placeholder="What needs to be done?"
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+                onKeyPress={onKeyPress} />
+        </header>
+    );
 }
 
-export default Header;
+const mapDispatchToProps = {
+    createTodo
+}
+
+export default connect(null, mapDispatchToProps)(Header);
